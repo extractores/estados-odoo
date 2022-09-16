@@ -1,0 +1,732 @@
+<?xml version="1.0"?>
+
+<t t-name="rapitech_economysa_ticket.rapitech_economysa_ticket" >
+
+
+            <t t-call="web.basic_layout" style="height:300px ;
+            width: 80px;">
+                <t t-set="o" t-value="o.with_context(lang=lang)"/>
+                <div class="pos-sale-ticket" style="margin-left:0% !important; ">
+                    <div class="page" style="padding-top:5px;">
+                        <div class="pos-sale-ticket" >
+                            <div class="page1" style="padding-top:5px; ">
+                                <div>
+                                    <center>
+                                        <div style="width: 100%">
+                                            <!--<img src="/web/binary/company_logo" style="width:65%"/>-->
+                                        </div>
+                                    </center>
+                                    <br/>
+                                    <div style="width: 100%; float: center; padding: 0px 0px;">
+
+                                        <div class="pos-center-number" style="text-align:center;font-size: 12px">
+                                            NUMERO DE PEDIDO: <t t-esc="o.name"/>
+                                        </div>
+
+                                        <t t-if="o.company_id.name">
+                                            <!--<div style="width:100%;text-align:center;"> <t t-esc="o.branch_id.name"/></div>-->
+                                            <div style=" width:100%;font-size: 12px;text-align:center;"  id="compania"><t t-esc="o.company_id.name"/>
+                                             RUC: <t t-esc="o.company_id.vat"/>
+                                            </div>
+                                            <!--<div style="width:100%;text-align:center;">RUC: <t t-esc="o.company_id.vat"/></div>-->
+                                            <div style="width:100%;text-align:center;font-size: 12px"><t t-esc="o.company_id.street"/>
+                                                <t t-esc="o.company_id.street2" />
+                                                 <t  t-esc="o.company_id.city"/> -
+                                                 <t  t-esc="o.company_id.state_id.name"/>
+                                                <t  t-esc="o.company_id.phone"/>
+
+                                            </div>
+                                            <div style="width:100%;text-align:center;font-size: 12px"> <t  t-esc="o.company_id.website"/></div>
+
+                                            <hr style="width: 100%;border-top: 1px dashed black;margin-top:2px" />
+                                        </t>
+
+                                    </div>
+
+                                    <div style="width: 100%;margin-top:5px;">
+
+                                        <div style="font-size: 12px">
+                                            <!--<div class="pos-center-number" style="text-align:center">
+                                                <t t-esc="o.name"/><b>
+                                            </div>   -->
+                                             <b>F.EMISION: </b>  <t t-esc="o.create_date.strftime('%d/%m/%y')"/>
+                                             <b style="margin-left:20px">F.VCMTO: </b> <t t-esc="o.date_delivery.strftime('%d/%m/%y')"/> <!--<t t-esc="o.date_delivery('%d/%m/%y')"/>-->
+                                        </div>
+                                        <t t-if="o.partner_id">
+                                                <div style="font-size: 12px">
+                                                    <t t-if="o.partner_id.l10n_latam_identification_type_id.l10n_pe_vat_code == '6'">
+                                                        <b>RUC: </b>
+                                                    </t>
+                                                    <t t-if="o.partner_id.l10n_latam_identification_type_id.l10n_pe_vat_code == '1'">
+                                                        <b>DNI: </b>
+                                                    </t>
+                                                    <t t-if="o.partner_id.l10n_latam_identification_type_id.l10n_pe_vat_code not in ['6','1']">
+                                                        <span><t t-esc="o.partner_id.l10n_latam_identification_type_id.name"/> </span>
+                                                    </t>
+                                                    <t t-esc="o.partner_id.vat"/>
+                                                    <t t-if="o.partner_id.l10n_latam_identification_type_id.l10n_pe_vat_code == '6'">
+                                                       <b style="margin-left:31px">CODIGO:</b>
+                                                    </t>
+                                                    <t t-if="o.partner_id.l10n_latam_identification_type_id.l10n_pe_vat_code == '1'">
+                                                        <b style="margin-left:58px">CODIGO:</b>
+                                                    </t>
+
+                                                    <t t-if="o.partner_id.code">
+
+
+                                                        <t style="margin-left:15px" t-esc="o.partner_id.code[:6]"/>
+
+
+
+
+
+
+
+                                                    </t>
+
+
+
+                                                </div>
+                                                <div style="font-size: 12px">
+
+                                                    <b>RAZON SOC: </b> <span t-esc="o.partner_id._get_custom_name()"></span> <!--<t t-esc="o.partner_id.name" /> -->
+
+
+
+                                                </div>
+                                        </t>
+
+                                        <t t-if="o.partner_shipping_id">
+                                        <div style="font-size: 12px">
+                                            <b>DIR.ENTREGA: </b> <t t-esc="o.partner_shipping_id.street"/>
+
+                                        </div>
+                                       </t>
+                                        <div style="font-size: 12px">
+                                            <t t-if="o.partner_id">
+                                            <b>DISTRITO: </b> <t t-esc="(o.partner_shipping_id.l10n_pe_district.name).upper()"></t>
+                                            </t>
+                                        </div>
+
+
+
+
+                                        <hr style="width: 100%;border-top: 1px dashed black;margin-top:15px;" />
+                                    </div>
+
+                                    <div style="width: 100%;margin-top:5px;">
+                                        <t t-if="o.partner_shipping_id">
+
+                                        <div style="font-size: 12px">
+                                            <!--<div class="pos-center-number" style="text-align:center">
+                                                <t t-esc="o.name"/><b>
+                                            </div>   -->
+
+
+                                             <b>GIRO:  </b> <t t-esc="o.partner_shipping_id.line_business_id.name"/>
+
+
+                                             <tr t-if="int(len(o.partner_shipping_id.line_business_id.name)) &gt;  10 ">
+
+                                             <b style="margin-left:5px">MODULO: </b> <t t-esc="o.partner_shipping_id.zone_id.name"/>
+
+                                             </tr>
+                                             <tr t-if="int(len(o.partner_shipping_id.line_business_id.name)) &lt;   10 ">
+
+                                                <b style="margin-left:60px">MODULO: </b> <t t-esc="o.partner_shipping_id.zone_id.name"/>
+
+                                                </tr>
+
+
+
+                                        </div>
+
+                                        <div style="font-size: 12px">
+
+                                            <b>VENDEDOR: </b> <t t-esc="o.user_id.name"/>
+
+
+                                        </div>
+                                       <!-- <div style="font-size: 14px">
+                                            <t t-foreach="o.route_id.line_ids" t-as="l">
+
+                                                <t  t-foreach="l.zone_ids" t-as="z">
+
+                                                    <t t-if="z.name==o.partner_shipping_id.zone_id.name">
+                                                        <b>D.VISITA: </b>
+
+                                                             <t t-if="l.dayofweek=='0'">
+                                                                        LUNES
+                                                                </t>
+                                                                <t t-if="l.dayofweek=='1'">
+                                                                    MARTES
+                                                                </t>
+                                                                <t t-if="l.dayofweek=='2'">
+                                                                    MIERCOLES
+                                                                </t>
+                                                                <t t-if="l.dayofweek=='3'">
+                                                                    JUEVES
+                                                                    </t>
+                                                                <t t-if="l.dayofweek=='4'">
+                                                                    VIERNES
+                                                                </t>
+                                                                <t t-if="l.dayofweek=='5'">
+                                                                    SABADO
+                                                                </t>
+                                                                <t t-if="l.dayofweek=='6'">
+                                                                    DOMINGO
+                                                                </t>
+
+
+
+                                                     </t>
+                                                </t>
+                                            </t>
+
+                                        </div> -->
+                                        <div style="font-size: 12px">
+                                            <b>L.PREC: </b>  <t t-esc="o.partner_shipping_id.property_product_pricelist.name"/>
+
+                                        </div>
+                                        <div style="font-size: 12px">
+                                            <b>H.ENTREGA: </b>
+                                              <t t-if="o.partner_shipping_id.time_delivery_start">
+
+
+
+                                               <t t-esc="'{0:02.0f}:{1:02.0f}'.format(*divmod(o.partner_shipping_id.time_delivery_start * 60, 60))"/>
+                                               <!--<t t-esc="datetime.datetime.strptime(o.partner_shipping_id.time_delivery_start, '%H:%M:%S.%f')"/>-->
+
+                                               </t>
+
+                                             -
+                                             <t t-if="o.partner_shipping_id.time_delivery_end">
+
+                                             <t t-esc="'{0:02.0f}:{1:02.0f}'.format(*divmod(o.partner_shipping_id.time_delivery_end * 60, 60))"/>
+
+                                            </t>
+
+
+
+
+
+                                        </div>
+                                        <div style="font-size: 12px">
+
+                                            <b>TELEFONO: </b>
+                                            <t t-if="o.partner_shipping_id.mobile">
+
+                                                    <t t-esc="o.partner_shipping_id.mobile"/>
+                                           </t>
+
+                                        </div>
+                                        <div style="font-size: 12px">
+                                            <b>CANAL DE VENTA: </b>
+
+                                            <t t-if="o.sale_channel_id">
+
+                                                <t t-esc="o.sale_channel_id"/>
+                                             </t>
+
+                                        </div>
+
+                                        <div style="font-size: 12px">
+                                            <b>F.PAGO: </b> CONTADO
+
+                                        </div>
+
+                                        <div style="font-size: 12px">
+                                            <b>TRANSPORTISTA: </b>
+                                            <t t-if="o.user_dd_id.name">
+
+                                                <t t-esc="o.user_dd_id.name"/>
+
+                                            </t>
+
+                                        </div>
+
+                                        </t>
+
+                                        <hr style="width: 100%;border-top: 1px dashed black;margin-top:2px" />
+                                    </div>
+                                    <p style="font-size: 12px;">CODIGO ---------- DESC. ARTICULOS ----------</p>
+                                    <hr style="width: 100%;border-top: 1px dashed black;margin-top:2px" />
+                                    <p style="font-size: 12px;"><strong>U.M</strong>  <strong style="margin-left:18px ;">CANTIDAD</strong>  <strong style="margin-left:8px ;">PRECIO U.</strong>  <strong style="margin-left:10px ;">%DSCTO </strong> <strong style="margin-left:8px">TOTAL</strong></p>
+                                    <hr style="width: 100%;border-top: 1px dashed black;margin-top:0px" />
+                                    <div t-foreach="o.order_line" t-as="l" >
+
+
+                                        <p style="font-size: 12px;margin-top:-5px">
+
+
+                                            <strong style="font-weight: normal">
+                                                [<t t-esc="l.product_id.default_code"/>]
+                                            </strong>
+                                            <strong style="margin-left: 5px;font-weight: normal">
+                                            <t style="font-size: 12px" t-esc="l.product_id.name"/> </strong>
+
+
+
+
+
+                                        </p>
+
+                                        <p style="font-size: 12px;margin-top:-13px">
+
+
+                                           <t  t-if="int(len(str(round(l.price_total,2)))) &gt; 7 ">
+
+                                                 <strong style="font-weight: normal;font-size: 12px"><t t-esc="l.product_uom.name.upper()"/></strong>
+
+
+                                                <strong style="margin-left: 30px;font-weight: normal;font-size: 12px">
+                                                    <t t-esc="'{:,.2f}'.format(l.product_uom_qty)"/>
+                                                </strong>
+
+
+                                                <strong style="margin-left: 0px;font-weight: normal;font-size: 12px">
+
+                                                    <t t-esc="'{:,.2f}'.format(round(l.price_unit,2))"/>
+
+                                                </strong>
+
+
+                                                <strong style="margin-left: 10px;font-weight: normal;font-size: 12px">
+
+                                                    <t t-if="l.discount">
+                                                        <span t-esc="'{:,.2f}'.format(round(l.price_unit*(100-l.discount)/100,2))"/>
+                                                    </t>
+                                                    <t t-if="not l.discount">
+                                                        <span t-esc="'{:,.2f}'.format(round(0.00,2))"/>
+                                                    </t>
+
+                                                </strong>
+                                                <strong style="margin-left: 15px;font-weight: normal;font-size: 12px">
+
+                                                    <t t-esc="'{:,.2f}'.format(round(l.price_total,2))"/>
+
+
+                                                </strong>
+
+
+
+
+                                      </t>
+
+
+
+                                     </p>
+
+                                     <p style="font-size: 12px;margin-top:-13px">
+                                        <t  t-if="int(len(str(round(l.price_total,2)))) == 7 ">
+
+                                            <strong style="font-weight: normal;font-size: 12px"><t t-esc="l.product_uom.name.upper()"/></strong>
+
+
+                                            <strong style="margin-left: 15px;font-weight: normal;font-size: 12px">
+                                                <t t-esc="'{:,.2f}'.format(l.product_uom_qty)"/>
+                                            </strong>
+
+
+                                            <strong style="margin-left: 10px;font-weight: normal;font-size: 12px">
+
+                                                <t t-esc="'{:,.2f}'.format(round(l.price_unit,2))"/>
+
+                                            </strong>
+
+
+                                            <strong style="margin-left: 20px;font-weight: normal;font-size: 12px">
+
+                                                <t t-if="l.discount">
+                                                    <span t-esc="'{:,.2f}'.format(round(l.price_unit*(100-l.discount)/100,2))"/>
+                                                </t>
+                                                <t t-if="not l.discount">
+                                                    <span t-esc="'{:,.2f}'.format(round(0.00,2))"/>
+                                                </t>
+
+                                            </strong>
+                                            <strong style="margin-left: 20px;font-weight: normal;font-size: 12px">
+
+                                                <t t-esc="'{:,.2f}'.format(round(l.price_total,2))"/>
+
+
+                                            </strong>
+
+
+
+                                        </t>
+
+                                     </p>
+
+
+
+
+                                      <p style="font-size: 12px;margin-top:-14px">
+
+                                        <tr t-if="int(len(str(round(l.price_total,2)))) &lt;  7 ">
+
+                                            <strong style="font-weight: normal;font-size: 12px;"><t t-esc="l.product_uom.name.upper()"/></strong>
+
+                                            <strong style="margin-left: 15px;font-weight: normal;font-size: 12px; ">
+                                                <t t-esc="'{:,.2f}'.format(l.product_uom_qty)"/>
+                                            </strong>
+
+
+                                            <strong style="margin-left: 20px;font-weight: normal;font-size: 12px;">
+
+                                                <t t-esc="'{:,.2f}'.format(round(l.price_unit,2))"/>
+
+                                            </strong>
+
+
+                                            <strong style="margin-left: 30px;font-weight: normal;font-size: 12px;">
+
+                                                <t t-if="l.discount">
+                                                    <span t-esc="'{:,.2f}'.format(round(l.price_unit*(100-l.discount)/100,2))"/>
+                                                </t>
+                                                <t t-if="not l.discount">
+                                                    <span t-esc="'{:,.2f}'.format(round(0.00,2))"/>
+                                                </t>
+
+                                        </strong>
+                                        <strong style="margin-left: 25px;font-weight: normal;font-size: 12px;">
+
+                                            <t t-esc="'{:,.2f}'.format(round(l.price_total,2))"/>
+
+
+                                        </strong>
+
+                                </tr>
+
+
+
+                                     </p>
+
+
+                                    </div>
+
+
+
+                                    <hr style="width: 100%;border-top: 1px dashed black;margin-top:2px" />
+
+                                    <t  t-if="int(len(str(round(o.amount_total,2)))) &gt; 6 ">
+
+                                    <div style="font-size: 12px">
+                                        <b>TOTAL: </b> <span style="margin-left:140px">S/</span>  <span style="margin-left:20px;" t-esc="'{:,.2f}'.format(o.amount_total)"/>
+
+                                    </div>
+
+                                    </t>
+                                    <tr t-if="int(len(str(round(o.amount_total,2)))) == 6">
+                                        <div style="font-size: 12px">
+                                            <b>TOTAL: </b> <span style="margin-left:160px">S/</span>  <span style="margin-left:20px;" t-esc="'{:,.2f}'.format(o.amount_total)"/>
+
+                                        </div>
+
+                                    </tr>
+
+
+                                    <tr t-if="int(len(str(round(o.amount_total,2)))) &lt;  6 ">
+                                        <div style="font-size: 12px">
+                                            <b>TOTAL: </b> <span style="margin-left:180px">S/</span>  <span style="margin-left:20px;" t-esc="'{:,.2f}'.format(o.amount_total)"/>
+
+                                        </div>
+
+                                    </tr>
+
+
+
+                                    <div style="font-size: 12px">
+                                        <span t-esc="o.currency_id.l10n_pe_amount_to_text(o.amount_total).upper()"></span>
+
+                                    </div>
+                                    <br/>
+
+                                    <div style="font-size: 12px">
+                                        <b>BASE IMPONIBLE: </b> <span  style="margin-left:90px">S/</span> <span style="margin-left:20px;" t-esc="'{:,.2f}'.format(o.amount_untaxed)"/>
+
+                                    </div>
+                                    <div style="font-size: 12px">
+                                        <b>IGV (18%): </b> <span  style="margin-left:135px">S/</span> <span style="margin-left:20px;" t-esc="'{:,.2f}'.format(o.amount_tax)"/>
+
+                                    </div>
+                                    <div style="font-size: 12px">
+                                        <b>IMPORTE TOTAL: </b> <span  style="margin-left:94px">S/</span>  <span style="margin-left:20px;" t-esc="'{:,.2f}'.format(o.amount_total)"/>
+
+                                    </div>
+                                    <p style="color:white">hola</p>
+                                    <p style="color:white">hola</p>
+
+                                    <br/>
+                                    <br />
+                                    <br />
+                                    <br />
+
+                                   <!-- <table  style="font-size:12px;border: 1px solid rgb(0, 0, 0);">
+                                        <tr style="padding: 10px;">
+
+                                            <th style="padding:15px; text-align:center">
+
+                                                BANCO
+
+                                            </th>
+                                            <th style="padding:15px; text-align:center">
+                                                MONEDA
+                                            </th>
+                                            <th style="padding:15px; text-align:center">
+                                                N° CUENTA
+                                            </th>
+                                        </tr>
+
+
+                                        <tr style="padding:15px; ">
+                                            <td >INTERBANK </td>
+                                            <td style="text-align:center"> SOLES</td>
+                                            <td>041-3002258960</td>
+
+                                        </tr>
+                                        <tr style="padding:15px; ">
+                                            <td>BBVA </td>
+                                            <td style="text-align:center">SOLES</td>
+                                            <td>0011-0164-01-00047368</td>
+
+                                        </tr>
+                                        <tr style="padding:15px;">
+                                            <td>BCP </td>
+                                            <td style="text-align:center">SOLES</td>
+                                            <td>193-1891146-0-83</td>
+
+                                        </tr>
+                                        <tr style="padding:15px;">
+                                            <td>BCP </td>
+                                            <td style="text-align:center">DOLARES</td>
+                                            <td>193-1889462-1-83</td>
+
+                                        </tr>
+                                    </table> -->
+
+
+
+
+
+
+
+                                   <!-- <div style="font-size: 18px">
+
+
+                                        <hr style="width: 100%;border-top: 1px dashed black;margin-top:2px" />
+                                    </div>
+                                    <table>
+
+
+                                        <tr >
+
+                                            <th scope="col">U.M</th>
+                                            <th scope="col">CANT.</th>
+                                            <th scope="col">PRECIO U.</th>
+                                            <th scope="col">%DSCTO</th>
+                                            <th scope="col">TOTAL</th>
+                                        </tr>
+
+                                    <tbody>
+                                        <tr t-foreach="o.order_line" t-as="l" style="" scope="row">
+                                            <td> <t t-esc="l.product_id.default_code"/> </td>
+                                            <td style="width: 100%;text-align: left;font-size: 18px">
+                                                <t style="font-size: 18px" t-esc="l.product_id.name"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>hola mundo</td>
+                                        </tr>
+
+                                            <td style="width: 25%;text-align: left;">
+                                                <t t-esc="l.product_uom.name"/>
+                                            </td>
+
+                                            <td style="width: 25%;text-align: left;">
+                                                <t t-esc="l.product_uom_qty"/>
+                                            </td>
+                                            <td style="width: 25%;text-align: left;">
+                                                <t t-esc="round(l.price_unit,2)"/>
+                                            </td>
+
+                                            <td style="width: 25%;text-align: left;">
+                                                <t t-if="l.discount">
+                                                    <span t-esc="round(l.price_unit*(100-l.discount)/100,2)"/>
+                                                </t>
+                                                <t t-if="not l.discount">
+                                                    <span t-esc="round(0.00,2)"/>
+                                                </t>
+                                            </td>
+
+                                            <td style="width: 25%;text-align: left;">
+                                                <t t-esc="round(l.price_subtotal,2)"/>
+                                            </td>-->
+
+                                            <!--<td>
+
+                                                <t t-esc="l.product_id.name"/>
+                                                <t t-if="display_discount">
+                                                    <br/>
+                                                    <div class="pos-disc-font">
+                                                        With a <t t-esc="l.discount"/>% discount
+                                                    </div>
+                                                </t>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <t t-esc="l.product_uom_qty"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <t t-if="l.discount">
+                                                    <span t-esc="round(l.price_unit*(100-l.discount)/100,2)"/>
+                                                </t>
+                                                <t t-if="not l.discount">
+                                                    <span t-esc="round(l.price_unit,2)"/>
+                                                </t>
+                                            </td>-->
+                                        <!--</tr>-->
+                                     <!-- </tbody>
+                                    </table> -->
+                                    <!--<br/>
+                                    <table class="receipt-total" style="width:100%">
+                                        <colgroup>
+                                            <col width="60%"/>
+                                            <col width="40%"/>
+                                        </colgroup>-->
+                                        <!--tr>
+                                            <td>
+                                                <span>Op. Exoneradas:</span>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <div class="exoneradas">
+                                                    <span t-esc="o.currency_id.symbol"/><t t-esc="o.total_exonerado"/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>Op. Inafectas:</span>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <div class="inafectas">
+                                                    <span t-esc="o.currency_id.symbol"/><t t-esc="o.total_inafecto"/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>Op. Gravadas:</span>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <div class="gravadas">
+                                                    <span t-esc="o.currency_id.symbol"/><t t-esc="o.total_base_igv"/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span>IGV:</span>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <div class="total_igv">
+                                                    <span t-esc="o.currency_id.symbol"/><t t-esc="o.total_igv"/>
+                                                </div>
+                                            </td>
+                                        </tr-->
+                                        <!--<tr class="emph">
+                                            <td>Total:</td>
+                                            <td style="text-align:right">
+                                                <span t-field="o.amount_total"/>
+                                            </td>
+                                        </tr>-->
+                                        <!--tr>
+                                            <td colspan="2" class="amount-text">
+                                                SON <t t-esc="o.amount_text"/>
+                                            </td>
+                                        </tr-->
+                                    <!--</table>
+                                    <br/>-->
+                                    <!--<table class="receipt-change" style="font-size:12px;width:100%">
+                                        <colgroup>
+                                            <col width="30%"/>
+                                            <col width="70%"/>
+                                        </colgroup>
+                                        <tr>
+                                            <td>Vendedor:</td>
+                                            <td style="text-align:right">
+                                                <t t-esc="o.user_id.name"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fecha y hora:</td>
+                                            <td style="text-align:right">
+                                            <t t-esc="o.date_order"/>
+                                            </td>
+                                        </tr>
+                                    </table>-->
+                                    <br/>
+                                    <!--<t t-if="o.partner_id">
+                                        <table class="receipt-orderlines" style="font-size:12px;border: 1px solid rgb(0, 0, 0);">
+                                            <colgroup>
+                                                <col width="25%"/>
+                                                <col width="75%"/>
+                                            </colgroup>
+                                            <tr>
+                                                <td>Cliente:</td>
+                                                <td><t t-esc="o.partner_id.name"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <t t-if="o.partner_id.l10n_latam_identification_type_id.l10n_pe_vat_code == '6'">
+                                                        <span>RUC: </span>
+                                                    </t>
+                                                    <t t-if="o.partner_id.l10n_latam_identification_type_id.l10n_pe_vat_code == '1'">
+                                                        <span>DNI: </span>
+                                                    </t>
+                                                    <t t-if="o.partner_id.l10n_latam_identification_type_id.l10n_pe_vat_code not in ['6','1']">
+                                                        <span><t t-esc="o.partner_id.l10n_latam_identification_type_id.name"/> </span>
+                                                    </t>
+                                                </td>
+                                                <td><t t-esc="o.partner_id.vat"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Dirección:</td>
+                                                <td><t t-esc="o.partner_id.street"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Distrito:</td>
+                                                <td><t t-esc="o.partner_id.l10n_pe_district.name"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Referencia:</td>
+                                                <td><t t-esc="o.partner_id.street"/></td>
+                                            </tr> -->
+                                            <!--<tr>
+                                                <td>Tlf. fijo:</td>
+                                                <td><t t-esc="o.partner_id.phone"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Celular:</td>
+                                                <td><t t-esc="o.partner_id.mobile"/></td>
+                                            </tr>
+
+                                            <t t-foreach="o.partner_id.child_ids" t-as="child">
+                                                <t t-if="child.type=='delivery'">
+                                                    <tr><td colspan="2"></td></tr>
+                                                    <tr><th colspan="2">Dirección de entrega</th></tr>
+                                                    <tr><th>Contacto</th><td><span t-field="child.name"/></td></tr>
+                                                    <tr><th>Dirección</th><td><span t-field="child.street"/></td></tr>
+                                                    <tr><th>Distrito</th><td><span t-field="child.state_id.name"/></td></tr>
+                                                    <tr><th>Referencia</th><td><span t-field="child.comment"/></td></tr>
+                                                </t>
+                                            </t>
+                                        </table>
+                                    </t>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+
+        </t>
